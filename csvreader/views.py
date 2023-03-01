@@ -1,6 +1,9 @@
 import csv
 from django.http import HttpResponse
 import os
+from bs4 import BeautifulSoup
+import time
+
 def csvr(request):
     # Open the CSV file and read its contents
     file_path = os.path.join(os.environ['HOME'], 'Python Apps', 'no.csv')
@@ -17,5 +20,18 @@ def csvr(request):
         html += '</tr>'
     html += '</table>'
 
+    cell_contents = []
+
+    soup = BeautifulSoup(html, 'html.parser')
+    for cell in soup.find_all('td'):
+        cell_contents.append(cell.text)
+
+    # Send each cell content as a separate message
+    for content in cell_contents:
+        if len(content)==9:
+            content = ('0'+content)
+        # Send the message using your preferred method, e.g. email, SMS, etc.
+        print(content)
+        time.sleep(20)
     # Return an HTTP response that displays the HTML table
-    return HttpResponse(rows)
+    return HttpResponse(html)
