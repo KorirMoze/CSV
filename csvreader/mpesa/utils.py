@@ -4,7 +4,7 @@ General utilities for the MPESA functions
 
 from __future__ import print_function
 from .exceptions import MpesaConfigurationException, IllegalPhoneNumberException, MpesaConnectionError, MpesaError
-from django_daraja.models import AccessToken
+from csvreader.models import AccessToken
 import requests
 from django.utils import timezone
 from decouple import config, UndefinedValueError
