@@ -5,5 +5,5 @@ from .import views
 urlpatterns = [
    
     path('',views.csvr,name='csv'),
-    path('upload-csv/', upload_csv, name='upload_csv'),
+    path('upload/', views.upload_csv, name='upload'),
 ]

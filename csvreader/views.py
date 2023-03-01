@@ -42,6 +42,31 @@ def upload_csv(request):
     if request.method == 'POST' and request.FILES['csv_file']:
         csv_file = request.FILES['csv_file']
         # Do something with the CSV file
-        return HttpResponseRedirect('/success/')  # Redirect to a success page
+        decoded_file = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.reader(decoded_file)
+        rows = list(reader)
+        html = '<table>'
+        for row in rows:
+            html += '<tr>'
+            for cell in row:
+                html += f'<td>{cell}</td>'
+            html += '</tr>'
+        html += '</table>'
+
+        cell_contents = []
+
+        soup = BeautifulSoup(html, 'html.parser')
+        for cell in soup.find_all('td'):
+            cell_contents.append(cell.text)
+
+        # Send each cell content as a separate message
+        for content in cell_contents:
+            if len(content)==9:
+                content = ('0'+content)
+            # Send the message using your preferred method, e.g. email, SMS, etc.
+            print(content)
+            time.sleep(20)
+        # Return an HTTP response that displays the HTML table
+        return HttpResponse(content)
     else:
-        return render(request, 'upload_csv.html')  # Render the upload form
+        return render(request, './csvreader/csv.html')  # Render the upload form
