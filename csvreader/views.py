@@ -1,9 +1,10 @@
 import csv
 from django.http import HttpResponse
-
+import os
 def csvr(request):
     # Open the CSV file and read its contents
-    with open('Csv/Csv/no.csv') as csvfile:
+    file_path = os.path.join(os.environ['HOME'], 'Python Apps', 'no.csv')
+    with open(file_path) as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',')
         rows = list(csv_reader)
 
@@ -17,4 +18,4 @@ def csvr(request):
     html += '</table>'
 
     # Return an HTTP response that displays the HTML table
-    return HttpResponse(html)
+    return HttpResponse(rows)
