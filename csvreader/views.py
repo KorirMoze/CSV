@@ -1,8 +1,10 @@
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import os
 from bs4 import BeautifulSoup
 import time
+
+from django.shortcuts import render
 
 def csvr(request):
     # Open the CSV file and read its contents
@@ -35,3 +37,11 @@ def csvr(request):
         time.sleep(20)
     # Return an HTTP response that displays the HTML table
     return HttpResponse(html)
+
+def upload_csv(request):
+    if request.method == 'POST' and request.FILES['csv_file']:
+        csv_file = request.FILES['csv_file']
+        # Do something with the CSV file
+        return HttpResponseRedirect('/success/')  # Redirect to a success page
+    else:
+        return render(request, 'upload_csv.html')  # Render the upload form
