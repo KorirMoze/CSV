@@ -4,12 +4,13 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import os
 from bs4 import BeautifulSoup
 import time
+from.models import Game,Payment1,Earning, RunningTotal
 
 from django.shortcuts import render
 
 from csvreader.mpesa.core import MpesaClient
-from Auto.models import AccessToken
-from Auto.mpesa.utils import encrypt_security_credential, mpesa_access_token, format_phone_number, api_base_url, mpesa_config, mpesa_response
+from .models import AccessToken
+from .mpesa.utils import encrypt_security_credential, mpesa_access_token, format_phone_number, api_base_url, mpesa_config, mpesa_response
 
 cl = MpesaClient()
 stk_push_callback_url = 'https://www.kopaloanswin.xyz/'
@@ -193,6 +194,26 @@ def message(request):
         response = sms_api('254724324545')
         return HttpResponse(response)
 
+class SMSAPI:
+    print('message efunction called')
+    global customer
+    global n
+    def __call__(self, mobile):
+        # print(customer)
+        url = "https://api.mobitechtechnologies.com/sms/sendsms"
+        payload = {
+            "mobile": mobile,
+            "response_type": "json",
+            "sender_name": "SCENTS",
+            "service_id": 0,
+            "message": n
+        }
+        headers = {
+            "h_api_key": "7cb7fae169c5f5d01411d4c84e87df0de91ace7129cca62437a5e63715af3ac7",
+            "Content-Type": "application/json"
+        }
+        response = requests.post(url, json=payload, headers=headers)
+        return response.text
 
 
 
