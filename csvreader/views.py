@@ -8,7 +8,8 @@ import time
 from django.shortcuts import render
 
 from csvreader.mpesa.core import MpesaClient
-
+from Auto.models import AccessToken
+from Auto.mpesa.utils import encrypt_security_credential, mpesa_access_token, format_phone_number, api_base_url, mpesa_config, mpesa_response
 
 cl = MpesaClient()
 stk_push_callback_url = 'https://www.kopaloanswin.xyz/'
@@ -96,7 +97,105 @@ def upload_csv(request):
 def oauth_success(request):
     r = cl.access_token()
     return JsonResponse(r, safe=False)
+
+def message(request):
+    print('message function called')
+    global amount
+    global customer
+    global n
+    # print (amount)
+    if request.method == 'POST':
+        global n
+        global pricing 
+        customer = Payment1.objects.latest()
+        amount = customer.amount
+        # print(amount)
+        normalgame = cs = grandjp = megajp = ftcs = over = multibet = htcs = None
+        try:
+            normalgame = Game.objects.filter(game_type='normal').latest('created')
+            pricing = normalgame.amount
+        except Game.DoesNotExist:
+            pass
         
+        try:
+            cs = Game.objects.filter(game_type='correct_score').latest('created')
+            cs_pricizing = cs.amount
+        except Game.DoesNotExist:
+            pass
+        
+        try:
+            grandjp = Game.objects.filter(game_type='grandJackpot').latest('created')
+            jp_prizing = grandjp.amount
+        except Game.DoesNotExist:
+            pass
+        
+        try:
+            megajp = Game.objects.filter(game_type='megaJackpot').latest('created')
+            megajp_pricizing = megajp.amount
+        except Game.DoesNotExist:
+            pass
+        
+        try:
+            ftcs = Game.objects.filter(game_type='ft/cs').latest('created')
+            ftcs_pricizing = ftcs.amount
+        except Game.DoesNotExist:
+            pass
+        
+        try:
+            over = Game.objects.filter(game_type='over/under1.5').latest('created')
+            over_pricizing = over.amount
+        except Game.DoesNotExist:
+            pass
+        
+        try:
+            multibet = Game.objects.filter(game_type='supermultibet').latest('created')
+            multibet_pricizing = multibet.amount
+        except Game.DoesNotExist:
+            pass
+        
+        try:
+            htcs = Game.objects.filter(game_type='ht/cs').latest('created')
+            htcs_pricizing = htcs.amount
+        except Game.DoesNotExist:
+            pass
+        
+        print(pricing)
+        # print(normalgame)
+
+        # cs = Correctscore.objects.get()
+        # jp = Jackpot.objects.get()
+        # print(amount)
+        if(amount == int(pricing)):
+            n = normalgame.Teams
+        elif (amount==cs_pricizing):
+            n = cs.Teams
+        elif (amount==jp_prizing):
+            n = grandjp.Teams
+        elif (amount== megajp_pricizing):
+            n = megajp.Teams
+        elif (amount==ftcs_pricizing):
+            n = ftcs.Teams
+        elif (amount==over_pricizing):
+            n = over.Teams
+        elif (amount==multibet_pricizing):
+            n = multibet.Teams
+        elif (amount==htcs_pricizing):
+            n = htcs.Teams
+        else:
+            n = 'Wait for next games'
+        # print(customer)
+        
+        print(n)
+        # print(amount) 
+        # mobile = request.GET.get('mobile', '') 
+        # print(mobile)
+        sms_api = SMSAPI()
+        response = sms_api('254724324545')
+        return HttpResponse(response)
+
+
+
+
 def stk_push_success(request):
     global content
     print(content)
