@@ -4,6 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import os
 from bs4 import BeautifulSoup
 import time
+from django.views.decorators.csrf import csrf_exempt
+
+import requests
 from.models import Game,Payment1,Earning, RunningTotal
 
 from django.shortcuts import render
@@ -98,6 +101,56 @@ def upload_csv(request):
 def oauth_success(request):
     r = cl.access_token()
     return JsonResponse(r, safe=False)
+
+@csrf_exempt
+def c2b_confirmation(request):
+    global amount
+    if request.method == 'POST':
+        # Parse request body and extract relevant information
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        
+        transaction_reference = body.get('TransID')
+        print(transaction_reference)
+        transaction_type = body.get('TransactionType')
+        transaction_amount = body.get('TransAmount')
+        phone_number = body.get('MSISDN')
+        transaction_date = body.get('TransTime')
+        business_shortcode = body.get('BusinessShortCode')
+        bill_reference = body.get('BillRefNumber')
+        invoice_number = body.get('InvoiceNumber', None)
+        print(body)
+        # earning = Earning.objects.get()
+
+
+        # Create Payment model instance and save to database
+        payment = Payment1.objects.create(
+            # transaction_reference=transaction_reference,
+            transaction_type=transaction_type,
+            phone_number=phone_number,
+            amount=transaction_amount,
+            # bill_reference=bill_reference,
+            # invoice_number=invoice_number,
+            # business_shortcode=business_shortcode,
+            # created_at=transaction_date
+        )
+        running_total, created = RunningTotal.objects.get_or_create(pk=1)
+        pr = float(payment.amount)
+        running_total.add_amount(pr)
+
+        if payment.amount == body.get('TransAmount'):
+            payment.confirmed = True
+            payment.save()
+            message(request)
+        
+        # Perform any additional logic required for confirming the transaction
+        # ...
+        
+        return JsonResponse({'status': 'Confirmation received'})
+    else:
+        return JsonResponse({'status': 'Invalid request method'})
+
+
 
 def message(request):
     print('message function called')
