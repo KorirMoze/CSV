@@ -1,23 +1,63 @@
-from decimal import Decimal
 from django.db import models
-
-# Create your models here.
-# -*- coding: utf-8 -*-
-
 from django.utils import timezone
+from decimal import Decimal
+# Create your models here.
+
+class Customer(models.Model):
+    name = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    account_balance = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+
+class Payment(models.Model):
+#     user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    transaction_id = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    phone_number = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        get_latest_by = 'created_at'
+    #Add any other fields you want to track for each payment, such as transaction date/time, status, or description.
 
 
-class AccessToken(models.Model):
-    token = models.CharField(max_length=30)
+    def __str__(self):
+        return self.phone_number
+
+class Payment1(models.Model):
+    TRANSACTION_TYPE_CHOICES = [
+        ('c2b', 'Customer to Business'),
+        ('b2c', 'Business to Customer'),
+        ('b2b', 'Business to Business'),
+    ]
+
+    transaction_type = models.CharField(max_length=3, choices=TRANSACTION_TYPE_CHOICES)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    phone_number = models.CharField(max_length=15)
+    status = models.CharField(max_length=20, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         get_latest_by = 'created_at'
 
     def __str__(self):
-        return self.token
-    
-    from django.db import models
+        return self.phone_number
+
+class AccessToken(models.Model):
+	token = models.CharField(max_length=30)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		get_latest_by = 'created_at'
+
+	def __str__(self):
+		return self.token
+
+
+
+from django.db import models
 from django.utils import timezone
 
 class Game(models.Model):
