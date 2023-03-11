@@ -128,17 +128,17 @@ MPESA_ENVIRONMENT = 'production'
 
 # Credentials for the daraja app
 
-MPESA_CONSUMER_KEY = '4cTx5OUf6q045gHJ7vxkEtRHOs8JiGtA'
-MPESA_CONSUMER_SECRET = 'm43YWRkqiFGfAlgo'
+MPESA_CONSUMER_KEY = 'GLTBF10km1AvUgSK6Mf8v6yxd3eZtGP8'
+MPESA_CONSUMER_SECRET = 'kNF8MqEujgozdNjD'
 
 # Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
-MPESA_SHORTCODE = '5030079'
+MPESA_SHORTCODE = '4108513'
 
 # Shortcode to use for Lipa na MPESA Online (MPESA Express) transactions
 # This is only used on sandbox, do not set this variable in production
 # For sandbox use the Lipa na MPESA Online Shorcode provided on test credentials page
 
-MPESA_EXPRESS_SHORTCODE = '5030079'
+MPESA_EXPRESS_SHORTCODE = '4108513'
 
 # Type of shortcode
 # Possible values:
@@ -151,7 +151,7 @@ MPESA_SHORTCODE_TYPE = 'till number'
 # Sandbox passkey is available on test credentials page
 # Production passkey is sent via email once you go live
 
-MPESA_PASSKEY = 'b5e7b9a4c7f7bf5d5452a4efecf5bdf256483247e988735715d1a515a7478caa'
+MPESA_PASSKEY = 'acd9254c9199366a7a7bea9683a27482a7840ef8b1401f9caddcbf61bb18637a'
 
 # Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 

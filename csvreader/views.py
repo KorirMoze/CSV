@@ -150,6 +150,34 @@ def c2b_confirmation(request):
     else:
         return JsonResponse({'status': 'Invalid request method'})
 
+@csrf_exempt
+def register_urls(request):
+    mpesa_environment = mpesa_config('MPESA_ENVIRONMENT')
+    if mpesa_environment == 'sandbox':
+        business_short_code = mpesa_config('MPESA_EXPRESS_SHORTCODE')
+    else:
+        business_short_code = mpesa_config('MPESA_SHORTCODE')
+        print(mpesa_access_token)
+    #access_token = MpesaAccessToken.validated_mpesa_access_token
+    
+    r = cl.access_token()
+    print(r)
+    print(business_short_code)
+    l=mpesa_access_token()
+    print(l)
+    api_url = "https://api.safaricom.co.ke/mpesa/c2b/v2/registerurl"
+    # headers = {"Authorization": "Bearer %s" % mpesa_access_token}
+    headers = {
+    'Authorization': 'Bearer ' + l,
+    'Content-type': 'application/json'
+}
+    options = {"ShortCode": business_short_code,
+               "ResponseType": "Completed",
+               "ConfirmationURL": "http://139.144.227.80/c2b/",
+               "ValidationURL": "http://139.144.227.80/validation/"}
+    response = requests.post(api_url, json=options, headers=headers)
+
+    return HttpResponse(response.text)
 
 
 def message(request):
