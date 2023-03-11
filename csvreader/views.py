@@ -7,7 +7,7 @@ import time
 from django.views.decorators.csrf import csrf_exempt
 
 import requests
-from.models import Game,Payment1,Earning, RunningTotal
+# from.models import Game,Payment1,Earning, RunningTotal
 
 from django.shortcuts import render
 
