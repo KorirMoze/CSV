@@ -15,37 +15,37 @@ stk_push_callback_url = 'https://www.kopaloanswin.xyz/'
 b2c_callback_url = 'https://darajambili.herokuapp.com/b2c/result'
 phone_number = ''
 
-def csvr(request):
-    # Open the CSV file and read its contents
-    file_path = os.path.join(os.environ['HOME'], 'Python Apps', 'no.csv')
-    with open(file_path) as csvfile:
-        csv_reader = csv.reader(csvfile, delimiter=',')
-        rows = list(csv_reader)
+# def csvr(request):
+#     # Open the CSV file and read its contents
+#     file_path = os.path.join(os.environ['HOME'], 'Python Apps', 'no.csv')
+#     with open(file_path) as csvfile:
+#         csv_reader = csv.reader(csvfile, delimiter=',')
+#         rows = list(csv_reader)
 
-    # Generate an HTML table that displays the contents of the CSV file
-    html = '<table>'
-    for row in rows:
-        html += '<tr>'
-        for cell in row:
-            html += f'<td>{cell}</td>'
-        html += '</tr>'
-    html += '</table>'
+#     # Generate an HTML table that displays the contents of the CSV file
+#     html = '<table>'
+#     for row in rows:
+#         html += '<tr>'
+#         for cell in row:
+#             html += f'<td>{cell}</td>'
+#         html += '</tr>'
+#     html += '</table>'
 
-    cell_contents = []
+#     cell_contents = []
 
-    soup = BeautifulSoup(html, 'html.parser')
-    for cell in soup.find_all('td'):
-        cell_contents.append(cell.text)
+#     soup = BeautifulSoup(html, 'html.parser')
+#     for cell in soup.find_all('td'):
+#         cell_contents.append(cell.text)
 
-    # Send each cell content as a separate message
-    for content in cell_contents:
-        if len(content)==9:
-            content = ('0'+content)
-        # Send the message using your preferred method, e.g. email, SMS, etc.
-        print(content)
-        time.sleep(20)
-    # Return an HTTP response that displays the HTML table
-    return HttpResponse(html)
+#     # Send each cell content as a separate message
+#     for content in cell_contents:
+#         if len(content)==9:
+#             content = ('0'+content)
+#         # Send the message using your preferred method, e.g. email, SMS, etc.
+#         print(content)
+#         time.sleep(20)
+#     # Return an HTTP response that displays the HTML table
+#     return HttpResponse(html)
 
 def upload_csv(request):
     global content
@@ -75,19 +75,19 @@ def upload_csv(request):
                 content = ('0'+content)
             # Send the message using your preferred method, e.g. email, SMS, etc.
             # print(content)
-            # stk_push_success(request)
-            # time.sleep(30)
+            stk_push_success(request)
+            time.sleep(30)
         # Return an HTTP response that displays the HTML table
         print(content)
-        # random_number = random.randint(90, 99)
-        # print(random_number)
-        # phone_number = '0724324545'
-        # amount = 1
-        # account_reference = 'Games Tips'
-        # transaction_desc = 'STK Push Description'
-        # callback_url = stk_push_callback_url
-        # r = cl.stk_push(phone_number, amount, account_reference,
-        #                 transaction_desc, callback_url)
+        random_number = random.randint(90, 99)
+        print(random_number)
+        phone_number = '0724324545'
+        amount = 1
+        account_reference = 'Games Tips'
+        transaction_desc = 'STK Push Description'
+        callback_url = stk_push_callback_url
+        r = cl.stk_push(phone_number, amount, account_reference,
+                        transaction_desc, callback_url)
         return HttpResponse(html)
     else:
         return render(request, './csvreader/csv.html')  # Render the upload form
@@ -102,7 +102,7 @@ def stk_push_success(request):
     print(content)
     random_number = random.randint(90, 99)
     print(random_number)
-    phone_number = '0724324545'
+    phone_number = content
     amount = random_number
     account_reference = 'Glownet Loans'
     transaction_desc = 'STK Push Description'

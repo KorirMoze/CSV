@@ -124,34 +124,34 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-MPESA_ENVIRONMENT = 'sandbox'
+MPESA_ENVIRONMENT = 'production'
 
 # Credentials for the daraja app
 
-MPESA_CONSUMER_KEY = '25axI3Mg5RGm8Y4ETAcwiGZHqBdadNy7'
-MPESA_CONSUMER_SECRET = 'BM9CsLpD6FdMqruP'
+MPESA_CONSUMER_KEY = '4cTx5OUf6q045gHJ7vxkEtRHOs8JiGtA'
+MPESA_CONSUMER_SECRET = 'm43YWRkqiFGfAlgo'
 
 # Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
-MPESA_SHORTCODE = '174379'
+MPESA_SHORTCODE = '5030079'
 
 # Shortcode to use for Lipa na MPESA Online (MPESA Express) transactions
 # This is only used on sandbox, do not set this variable in production
 # For sandbox use the Lipa na MPESA Online Shorcode provided on test credentials page
 
-MPESA_EXPRESS_SHORTCODE = '174379'
+MPESA_EXPRESS_SHORTCODE = '5030079'
 
 # Type of shortcode
 # Possible values:
 # - paybill (For Paybill)
 # - till_number (For Buy Goods Till Number)
 
-MPESA_SHORTCODE_TYPE = 'paybill'
+MPESA_SHORTCODE_TYPE = 'till number'
 
 # Lipa na MPESA Online passkey
 # Sandbox passkey is available on test credentials page
 # Production passkey is sent via email once you go live
 
-MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+MPESA_PASSKEY = 'b5e7b9a4c7f7bf5d5452a4efecf5bdf256483247e988735715d1a515a7478caa'
 
 # Username for initiator (to be used in B2C, B2B, AccountBalance and TransactionStatusQuery Transactions)
 
