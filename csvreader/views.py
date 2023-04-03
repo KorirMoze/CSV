@@ -1,4 +1,5 @@
 import csv
+import json
 import random
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import os
@@ -81,13 +82,13 @@ def upload_csv(request):
             # Send the message using your preferred method, e.g. email, SMS, etc.
             # print(content)
             stk_push_success(request)
-            time.sleep(30)
+            time.sleep(10)
         # Return an HTTP response that displays the HTML table
         print(content)
         random_number = random.randint(90, 99)
         print(random_number)
-        phone_number = '0724324545'
-        amount = 1
+        phone_number = content
+        amount = random_number
         account_reference = 'Games Tips'
         transaction_desc = 'STK Push Description'
         callback_url = stk_push_callback_url
@@ -173,8 +174,8 @@ def register_urls(request):
 }
     options = {"ShortCode": business_short_code,
                "ResponseType": "Completed",
-               "ConfirmationURL": "http://139.144.227.80/c2b/",
-               "ValidationURL": "http://139.144.227.80/validation/"}
+               "ConfirmationURL": "http://139.144.56.125/c2b/",
+               "ValidationURL": "http://139.144.56.125/validation/"}
     response = requests.post(api_url, json=options, headers=headers)
 
     return HttpResponse(response.text)
